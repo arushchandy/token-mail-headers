@@ -18,12 +18,19 @@ var getDashboardData = function () {
             var result = (response);
             $('#main-data').html(response);
         },
-        error: function (response) {
-            console.log(response);
+        error: function (event, jqxhr, settings, thrownError) {
+            if (event.status !== undefined && (event.status === "403" || event.status === 403)) {
+                alert('Please log in again.');
+                LogUserOutAndRedirect();
+            } 
         }
     });
 };
 
+
+var LogUserOutAndRedirect = function () {
+    window.location.href = '/index.html';
+};
 
 var getAccessToken = function () {
     var accessToken = localStorage.getItem('accesstoken');
